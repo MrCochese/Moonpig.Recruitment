@@ -27,14 +27,17 @@
         private DateTime CalculateMaximumLeadTime(List<int> productIds, DateTime orderDate)
         {
             var maximumLeadTime = orderDate;
-            foreach (var productId in productIds)
+            var supplierIds = _dbContext.Products.Where(x => productIds.Contains(x.ProductId))
+                                                 .Select(x => x.SupplierId)
+                                                 .Distinct();
+
+            foreach (var supplierId in supplierIds)
             {
-                var supplierId = _dbContext.Products.Single(x => x.ProductId == productId).SupplierId;
                 var leadTime = _dbContext.Suppliers.Single(x => x.SupplierId == supplierId).LeadTime;
                 if (orderDate.AddDays(leadTime) > maximumLeadTime)
                     maximumLeadTime = orderDate.AddDays(leadTime);
             }
-            
+
             return AdjustForWeekend(maximumLeadTime);
         }
 
