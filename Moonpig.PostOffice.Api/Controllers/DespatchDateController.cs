@@ -29,14 +29,19 @@
                     maximumLeadTime = orderDate.AddDays(leadTime);
             }
 
+            return new DespatchDate { Date = AdjustForWeekend(maximumLeadTime) };
+        }
+
+        private DateTime AdjustForWeekend(DateTime maximumLeadTime)
+        {
             switch (maximumLeadTime.DayOfWeek)
             {
                 case DayOfWeek.Saturday:
-                    return new DespatchDate { Date = maximumLeadTime.AddDays(2) };
+                    return maximumLeadTime.AddDays(2);
                 case DayOfWeek.Sunday:
-                    return new DespatchDate { Date = maximumLeadTime.AddDays(1) };
+                    return maximumLeadTime.AddDays(1);
                 default:
-                    return new DespatchDate { Date = maximumLeadTime };
+                    return maximumLeadTime;
             }
         }
     }
