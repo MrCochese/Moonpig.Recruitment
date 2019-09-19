@@ -16,7 +16,7 @@
 
             if (orderDate.DayOfWeek == DayOfWeek.Sunday)
             {
-                return orderDate.AddDays(LeadTime + 1);
+                return orderDate.AddDays(LeadTime + 1 + ((LeadTime / 5) * 2));
             }
 
             if (LeadTime >= daysUntilSaturday + 5) 
