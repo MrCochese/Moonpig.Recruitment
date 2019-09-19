@@ -20,6 +20,17 @@
             date.Date.Date.ShouldBe(new DateTime(2018,1,22).AddDays(expectedLeadTime));
         }
 
+        [Theory]
+        [InlineData(1, 2, 2)]
+        [InlineData(2, 3, 3)]
+        [InlineData(3, 1, 3)]
+        public void TwoProductsWithLeadTimesFromMonday(int firstProductId, int secondProductId, int expectedLeadTime)
+        {
+            DespatchDateController controller = new DespatchDateController(new DbContext());
+            var date = controller.Get(new List<int> { firstProductId, secondProductId }, new DateTime(2018,1,22));
+            date.Date.Date.ShouldBe(new DateTime(2018,1,22).AddDays(expectedLeadTime));
+        }
+
         [Fact]
         public void SaturdayHasExtraTwoDays()
         {
