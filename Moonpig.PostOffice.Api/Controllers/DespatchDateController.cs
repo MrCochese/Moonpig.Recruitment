@@ -21,7 +21,7 @@
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
             var maximumLeadTime = CalculateMaximumLeadTime(productIds, orderDate);
-            return new DespatchDate { Date = AdjustForWeekend(maximumLeadTime) };
+            return new DespatchDate { Date = maximumLeadTime };
         }
 
         private DateTime CalculateMaximumLeadTime(List<int> productIds, DateTime orderDate)
@@ -34,7 +34,7 @@
                 if (orderDate.AddDays(leadTime) > maximumLeadTime)
                     maximumLeadTime = orderDate.AddDays(leadTime);
             }
-            return maximumLeadTime;
+            return AdjustForWeekend(maximumLeadTime);
         }
 
         private DateTime AdjustForWeekend(DateTime maximumLeadTime)
