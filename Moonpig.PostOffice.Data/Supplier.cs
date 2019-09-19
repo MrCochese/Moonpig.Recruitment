@@ -14,11 +14,18 @@
         {
             int daysUntilSaturday = ((int) DayOfWeek.Saturday - (int) orderDate.DayOfWeek + 7) % 7;
 
-            if (LeadTime >= daysUntilSaturday + 5) {
+            if (orderDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return orderDate.AddDays(LeadTime + 1);
+            }
+
+            if (LeadTime >= daysUntilSaturday + 5) 
+            {
                 return orderDate.AddDays(LeadTime + 4);
             }
 
-            if (LeadTime >= daysUntilSaturday) {
+            if (LeadTime >= daysUntilSaturday)
+            {
                 return orderDate.AddDays(LeadTime + 2);
             }
 

@@ -36,5 +36,16 @@ namespace Moonpig.PostOffice.Tests
             var supplier = new Supplier { LeadTime = leadTime };
             supplier.CalculateReceiveDate(new DateTime(2019, 9, 20)).ShouldBe(new DateTime(2019, 9, 20).AddDays(expectedDays));
         }
+
+        [Theory]
+        [InlineData(1, 2)]
+        [InlineData(2, 3)]
+        [InlineData(3, 4)]
+        [InlineData(4, 5)]
+        public void LeadTimeFromSunday(int leadTime, int expectedDays)
+        {
+            var supplier = new Supplier { LeadTime = leadTime };
+            supplier.CalculateReceiveDate(new DateTime(2019, 9, 15)).ShouldBe(new DateTime(2019, 9, 15).AddDays(expectedDays));
+        }
     }
 }
