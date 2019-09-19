@@ -20,6 +20,12 @@
         [HttpGet]
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
+            var maximumLeadTime = CalculateMaximumLeadTime(productIds, orderDate);
+            return new DespatchDate { Date = AdjustForWeekend(maximumLeadTime) };
+        }
+
+        private DateTime CalculateMaximumLeadTime(List<int> productIds, DateTime orderDate)
+        {
             var maximumLeadTime = orderDate;
             foreach (var ID in productIds)
             {
@@ -28,8 +34,7 @@
                 if (orderDate.AddDays(leadTime) > maximumLeadTime)
                     maximumLeadTime = orderDate.AddDays(leadTime);
             }
-
-            return new DespatchDate { Date = AdjustForWeekend(maximumLeadTime) };
+            return maximumLeadTime;
         }
 
         private DateTime AdjustForWeekend(DateTime maximumLeadTime)
