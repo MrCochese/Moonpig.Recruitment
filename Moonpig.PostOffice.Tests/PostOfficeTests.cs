@@ -13,6 +13,7 @@
         [InlineData(1, 1)]
         [InlineData(2, 2)]
         [InlineData(3, 3)]
+        [InlineData(10, 14)]
         public void OneProductWithLeadTimesFromMonday(int productId, int expectedLeadTime)
         {
             DespatchDateController controller = new DespatchDateController(new DbContext());
