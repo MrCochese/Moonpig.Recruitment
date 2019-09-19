@@ -9,28 +9,15 @@
 
     public class PostOfficeTests
     {
-        [Fact]
-        public void OneProductWithLeadTimeOfOneDay()
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 2)]
+        [InlineData(3, 3)]
+        public void OneProductWithLeadTimesFromMonday(int productId, int expectedLeadTime)
         {
             DespatchDateController controller = new DespatchDateController(new DbContext());
-            var date = controller.Get(new List<int>() {1}, new DateTime(2018,1,22));
-            date.Date.Date.ShouldBe(new DateTime(2018,1,23));
-        }
-
-        [Fact]
-        public void OneProductWithLeadTimeOfTwoDay()
-        {
-            DespatchDateController controller = new DespatchDateController(new DbContext());
-            var date = controller.Get(new List<int>() { 2 }, new DateTime(2018,1,22));
-            date.Date.Date.ShouldBe(new DateTime(2018,1,24));
-        }
-
-        [Fact]
-        public void OneProductWithLeadTimeOfThreeDay()
-        {
-            DespatchDateController controller = new DespatchDateController(new DbContext());
-            var date = controller.Get(new List<int>() { 3 }, new DateTime(2018,1,22));
-            date.Date.Date.ShouldBe(new DateTime(2018,1,25));
+            var date = controller.Get(new List<int> { productId }, new DateTime(2018,1,22));
+            date.Date.Date.ShouldBe(new DateTime(2018,1,22).AddDays(expectedLeadTime));
         }
 
         [Fact]
@@ -45,7 +32,7 @@
         public void SundayHasExtraDay()
         {
             DespatchDateController controller = new DespatchDateController(new DbContext());
-            var date = controller.Get(new List<int>() { 3 }, new DateTime(2018, 1, 25));
+            var date = controller.Get(new List<int>() { 3 }, new DateTime(2018,1,25));
             date.Date.ShouldBe(new DateTime(2018, 1, 25).Date.AddDays(4));
         }
     }

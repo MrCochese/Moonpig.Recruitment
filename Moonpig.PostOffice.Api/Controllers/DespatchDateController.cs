@@ -20,20 +20,21 @@
         [HttpGet]
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
-            var maximumLeadTime = CalculateMaximumLeadTime(productIds, orderDate);
+            var maximumLeadTime = CalculateMaximumLeadTime(productIds, orderDate.Date);
             return new DespatchDate { Date = maximumLeadTime };
         }
 
         private DateTime CalculateMaximumLeadTime(List<int> productIds, DateTime orderDate)
         {
             var maximumLeadTime = orderDate;
-            foreach (var ID in productIds)
+            foreach (var productId in productIds)
             {
-                var supplierId = _dbContext.Products.Single(x => x.ProductId == ID).SupplierId;
+                var supplierId = _dbContext.Products.Single(x => x.ProductId == productId).SupplierId;
                 var leadTime = _dbContext.Suppliers.Single(x => x.SupplierId == supplierId).LeadTime;
                 if (orderDate.AddDays(leadTime) > maximumLeadTime)
                     maximumLeadTime = orderDate.AddDays(leadTime);
             }
+            
             return AdjustForWeekend(maximumLeadTime);
         }
 
