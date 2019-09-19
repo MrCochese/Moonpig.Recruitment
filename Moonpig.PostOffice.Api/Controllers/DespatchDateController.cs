@@ -12,15 +12,15 @@
     {
         private IDbContext _dbContext;
 
-        public DespatchDateController()
+        public DespatchDateController(IDbContext dbContext)
         {
-            _dbContext = new DbContext();
+            _dbContext = dbContext;
         }
 
         [HttpGet]
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
-            var maximumLeadTime = orderDate; // max lead time
+            var maximumLeadTime = orderDate;
             foreach (var ID in productIds)
             {
                 var supplierId = _dbContext.Products.Single(x => x.ProductId == ID).SupplierId;

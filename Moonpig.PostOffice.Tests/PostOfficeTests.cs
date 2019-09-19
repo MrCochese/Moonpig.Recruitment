@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Api.Controllers;
+    using Data;
     using Shouldly;
     using Xunit;
 
@@ -11,7 +12,7 @@
         [Fact]
         public void OneProductWithLeadTimeOfOneDay()
         {
-            DespatchDateController controller = new DespatchDateController();
+            DespatchDateController controller = new DespatchDateController(new DbContext());
             var date = controller.Get(new List<int>() {1}, new DateTime(2018,1,22));
             date.Date.Date.ShouldBe(new DateTime(2018,1,23));
         }
@@ -19,7 +20,7 @@
         [Fact]
         public void OneProductWithLeadTimeOfTwoDay()
         {
-            DespatchDateController controller = new DespatchDateController();
+            DespatchDateController controller = new DespatchDateController(new DbContext());
             var date = controller.Get(new List<int>() { 2 }, new DateTime(2018,1,22));
             date.Date.Date.ShouldBe(new DateTime(2018,1,24));
         }
@@ -27,7 +28,7 @@
         [Fact]
         public void OneProductWithLeadTimeOfThreeDay()
         {
-            DespatchDateController controller = new DespatchDateController();
+            DespatchDateController controller = new DespatchDateController(new DbContext());
             var date = controller.Get(new List<int>() { 3 }, new DateTime(2018,1,22));
             date.Date.Date.ShouldBe(new DateTime(2018,1,25));
         }
@@ -35,7 +36,7 @@
         [Fact]
         public void SaturdayHasExtraTwoDays()
         {
-            DespatchDateController controller = new DespatchDateController();
+            DespatchDateController controller = new DespatchDateController(new DbContext());
             var date = controller.Get(new List<int>() { 1 }, new DateTime(2018,1,26));
             date.Date.ShouldBe(new DateTime(2018, 1, 26).Date.AddDays(3));
         }
@@ -43,7 +44,7 @@
         [Fact]
         public void SundayHasExtraDay()
         {
-            DespatchDateController controller = new DespatchDateController();
+            DespatchDateController controller = new DespatchDateController(new DbContext());
             var date = controller.Get(new List<int>() { 3 }, new DateTime(2018, 1, 25));
             date.Date.ShouldBe(new DateTime(2018, 1, 25).Date.AddDays(4));
         }
