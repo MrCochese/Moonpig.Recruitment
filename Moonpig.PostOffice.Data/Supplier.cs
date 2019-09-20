@@ -12,29 +12,7 @@
 
         public DateTime CalculateReceiveDate(DateTime orderDate)
         {
-            int daysUntilSaturday = ((int) DayOfWeek.Saturday - (int) orderDate.DayOfWeek + 7) % 7;
-
-            if (orderDate.DayOfWeek == DayOfWeek.Sunday)
-            {
-                return orderDate.AddDays(LeadTime + 1 + ((LeadTime / 5) * 2));
-            }
-
-            if (LeadTime >= daysUntilSaturday) 
-            {
-                return orderDate.AddDays(LeadTime + 2 + (((LeadTime - daysUntilSaturday) / 5) * 2));
-            }
-
-            if (LeadTime >= daysUntilSaturday + 5) 
-            {
-                return orderDate.AddDays(LeadTime + 4);
-            }
-
-            if (LeadTime >= daysUntilSaturday)
-            {
-                return orderDate.AddDays(LeadTime + 2);
-            }
-
-            return orderDate.AddDays(LeadTime);
+            return orderDate.AddWorkingDays(LeadTime);
         }
     }
 }
