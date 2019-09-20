@@ -33,9 +33,10 @@
 
             foreach (var supplierId in supplierIds)
             {
-                var leadTime = _dbContext.Suppliers.Single(x => x.SupplierId == supplierId).LeadTime;
-                if (orderDate.AddDays(leadTime) > maximumLeadTime)
-                    maximumLeadTime = orderDate.AddDays(leadTime);
+                var receiveDate = _dbContext.Suppliers.Single(x => x.SupplierId == supplierId)
+                                                      .CalculateReceiveDate(orderDate);
+                if (receiveDate > maximumLeadTime)
+                    maximumLeadTime = receiveDate;
             }
 
             return AdjustForWeekend(maximumLeadTime);

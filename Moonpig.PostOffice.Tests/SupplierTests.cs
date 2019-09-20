@@ -43,7 +43,7 @@ namespace Moonpig.PostOffice.Tests
         [InlineData(3, 5)]
         [InlineData(4, 6)]
         [InlineData(5, 9)]
-        [InlineData(6, 10)]
+        [InlineData(6, 10)] 
         public void LeadTimeFromSaturday(int leadTime, int expectedDays)
         {
             var supplier = new Supplier { LeadTime = leadTime };
