@@ -19,6 +19,11 @@
                 return orderDate.AddDays(LeadTime + 1 + ((LeadTime / 5) * 2));
             }
 
+            if (LeadTime >= daysUntilSaturday) 
+            {
+                return orderDate.AddDays(LeadTime + 2 + (((LeadTime - daysUntilSaturday) / 5) * 2));
+            }
+
             if (LeadTime >= daysUntilSaturday + 5) 
             {
                 return orderDate.AddDays(LeadTime + 4);
